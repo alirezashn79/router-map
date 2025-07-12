@@ -3,13 +3,16 @@ import useGlobalStore from '@/store/global';
 import useMapStore from '@/store/map';
 import { ErrorEvent, LocationEvent } from 'leaflet';
 import { LocateFixed } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMap } from 'react-leaflet';
 
 export default function LocationPosition() {
   const setCurrentPosition = useMapStore((state) => state.setCurrentPosition);
+  const accuracy = useMapStore((state) => state.accuracy);
   const setAccuracy = useMapStore((state) => state.setAccuracy);
   const setIsLoading = useGlobalStore((state) => state.setIsLoading);
+  const isLoading = useGlobalStore((state) => state.isLoading);
+  const [isFound, setIsFound] = useState(false);
   const map = useMap();
   const initialLocationSet = useRef(false);
 
@@ -40,17 +43,16 @@ export default function LocationPosition() {
         initialLocationSet.current = true;
       }
 
-      if (accuracy <= 50) {
+      if (accuracy <= 100) {
         map.stopLocate();
+        setIsFound(true);
       }
       setIsLoading(false);
     };
 
-    // Event listener برای خطا در locate
     const onLocationError = (e: ErrorEvent) => {
       console.error('Error getting location:', e);
 
-      // پیام خطای دقیق‌تر بر اساس نوع خطا
       let errorMessage = 'Unable to retrieve your location. ';
 
       if (e.code === 1) {
@@ -69,24 +71,29 @@ export default function LocationPosition() {
       map.stopLocate();
     };
 
-    // اضافه کردن event listeners
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
 
-    // پاک کردن event listeners در cleanup
     return () => {
       map.off('locationfound', onLocationFound);
       map.off('locationerror', onLocationError);
-      map.stopLocate(); // متوقف کردن watching در cleanup
+      map.stopLocate();
     };
   }, [map, setAccuracy, setCurrentPosition, setIsLoading]);
 
   return (
     <button
+      disabled={isLoading}
       onClick={findLocationHandler}
-      className='absolute end-4 top-4 z-[999] flex size-12 cursor-pointer items-center justify-center rounded-xl bg-white shadow'
+      className='absolute end-4 top-4 z-[999] flex h-12 cursor-pointer items-center justify-center gap-4 rounded-xl bg-white px-4 shadow'
     >
-      <LocateFixed className='size-6 text-blue-500' />
+      {!isFound && accuracy && (
+        <p className='rounded-lg bg-blue-400 p-1.5 text-xs font-bold text-white'>
+          دقت: {Math.round(accuracy)} متر
+        </p>
+      )}
+
+      <LocateFixed className='size-6 shrink-0 text-blue-500' />
     </button>
   );
 }
