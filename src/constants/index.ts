@@ -1,0 +1,5 @@
+const CENTER_POSITION: [number, number] = [
+  35.699947698524674, 51.33798687550249,
+];
+
+export { CENTER_POSITION };
