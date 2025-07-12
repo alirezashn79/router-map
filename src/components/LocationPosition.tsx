@@ -7,6 +7,7 @@ import { useMap } from 'react-leaflet';
 
 export default function LocationPosition() {
   const setCurrentPosition = useMapStore((state) => state.setCurrentPosition);
+  const setAccuracy = useMapStore((state) => state.setAccuracy);
   const currentPosition = useMapStore((state) => state.currentPosition);
   const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const map = useMap();
@@ -20,21 +21,34 @@ export default function LocationPosition() {
     setIsLoading(true);
     setCurrentPosition(null);
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-        setCurrentPosition([latitude, longitude]);
-        setIsLoading(false); // فقط بعد از موفقیت
-      },
-      (error) => {
-        console.error('Error getting location:', error);
-        alert(
-          'Unable to retrieve your location. Please allow location access in your browser settings.',
-        );
-        setIsLoading(false); // اگر خطا داشت هم خاموش کن
-      },
-    );
+    map.locate({
+      watch: true,
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0,
+    });
+
+    map.on('locationfound', (e) => {
+      const { latlng, accuracy } = e;
+      setAccuracy(accuracy);
+
+      console.log(
+        `Latitude: ${latlng.lat}, Longitude: ${latlng.lng}, Accuracy: ${accuracy}m`,
+      );
+
+      if (accuracy <= 100) {
+        setCurrentPosition([latlng.lat, latlng.lng]);
+        map.stopLocate();
+        setIsLoading(false);
+      }
+    });
+
+    map.on('locationerror', (e) => {
+      console.error('Error getting location:', e.message);
+      alert('Unable to retrieve your location. Please allow location access.');
+      map.stopLocate();
+      setIsLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -44,6 +58,12 @@ export default function LocationPosition() {
       animate: true,
     });
   }, [currentPosition, map]);
+
+  useEffect(() => {
+    return () => {
+      map.stopLocate();
+    };
+  }, [map]);
 
   return (
     <button
