@@ -6,13 +6,7 @@ import L from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet/dist/leaflet.css';
-import {
-  Circle,
-  CircleMarker,
-  MapContainer,
-  Marker,
-  TileLayer,
-} from 'react-leaflet';
+import { Circle, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import LocationPosition from './LocationPosition';
 
 const blueDotIcon = new L.Icon({
