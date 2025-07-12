@@ -36,11 +36,9 @@ export default function LocationPosition() {
         `Latitude: ${latlng.lat}, Longitude: ${latlng.lng}, Accuracy: ${accuracy}m`,
       );
 
-      if (accuracy <= 100) {
-        setCurrentPosition([latlng.lat, latlng.lng]);
-        map.stopLocate();
-        setIsLoading(false);
-      }
+      setCurrentPosition([latlng.lat, latlng.lng]);
+      map.stopLocate();
+      setIsLoading(false);
     });
 
     map.on('locationerror', (e) => {
@@ -70,7 +68,7 @@ export default function LocationPosition() {
       onClick={findLocationHandler}
       className='absolute end-4 top-4 z-[999] flex size-12 cursor-pointer items-center justify-center rounded-xl bg-white shadow'
     >
-      <LocateFixed className='size-6 text-blue-500' />
+      <LocateFixed className='size-6 animate-pulse text-blue-500' />
     </button>
   );
 }
