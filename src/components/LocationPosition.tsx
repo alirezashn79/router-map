@@ -8,6 +8,7 @@ import { useMap } from 'react-leaflet';
 export default function LocationPosition() {
   const setCurrentPosition = useMapStore((state) => state.setCurrentPosition);
   const currentPosition = useMapStore((state) => state.currentPosition);
+  const setAccuracy = useMapStore((state) => state.setAccuracy);
   const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const map = useMap();
 
@@ -22,8 +23,8 @@ export default function LocationPosition() {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const { latitude, longitude } = position.coords;
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        const { latitude, longitude, accuracy } = position.coords;
+        setAccuracy(accuracy);
         setCurrentPosition([latitude, longitude]);
         setIsLoading(false);
       },
