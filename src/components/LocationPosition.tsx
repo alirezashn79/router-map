@@ -1,16 +1,18 @@
 'use client';
 import useGlobalStore from '@/store/global';
 import useMapStore from '@/store/map';
+import { cn } from '@/utils/cn';
+import { blueDotIcon } from '@/utils/mapIcons';
 import { ErrorEvent, LocationEvent } from 'leaflet';
 import { LocateFixed } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import { useMap } from 'react-leaflet';
+import { Circle, Marker, useMap } from 'react-leaflet';
+import { BounceLoader } from 'react-spinners';
 
 export default function LocationPosition() {
-  const setCurrentPosition = useMapStore((state) => state.setCurrentPosition);
-  const setAccuracy = useMapStore((state) => state.setAccuracy);
-  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
-  const isLoading = useGlobalStore((state) => state.isLoading);
+  const { currentPosition, setCurrentPosition, accuracy, setAccuracy } =
+    useMapStore();
+  const { isLoading, setIsLoading } = useGlobalStore();
   const map = useMap();
   const initialLocationSet = useRef(false);
   const fallbackTried = useRef(false);
@@ -96,12 +98,27 @@ export default function LocationPosition() {
   }, [map, setAccuracy, setCurrentPosition, setIsLoading]);
 
   return (
-    <button
-      disabled={isLoading}
-      onClick={findLocationHandler}
-      className='bg-base-100 absolute end-4 top-4 z-[999] flex h-12 cursor-pointer items-center justify-center gap-4 rounded-xl px-4 shadow'
-    >
-      <LocateFixed className='size-6 shrink-0 text-blue-500' />
-    </button>
+    <>
+      <button
+        disabled={isLoading}
+        onClick={findLocationHandler}
+        className='bg-base-100 absolute end-4 top-4 z-[999] flex h-12 cursor-pointer items-center justify-center gap-4 rounded-xl px-4 shadow transition-all'
+      >
+        <div className='shrink-0'>
+          {isLoading ? (
+            <BounceLoader color='#2b7fff' size={24} />
+          ) : (
+            <LocateFixed className={cn('size-6 text-blue-500')} />
+          )}
+        </div>
+      </button>
+
+      {currentPosition && (
+        <>
+          <Circle center={currentPosition} radius={accuracy ?? 0} weight={1} />
+          <Marker position={currentPosition} icon={blueDotIcon} />
+        </>
+      )}
+    </>
   );
 }
