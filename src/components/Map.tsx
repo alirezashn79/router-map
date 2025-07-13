@@ -8,6 +8,7 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet/dist/leaflet.css';
 import { Circle, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import LocationPosition from './LocationPosition';
+import useSetTileLayer from '@/hooks/useSetTileLayer';
 
 const blueDotIcon = new L.Icon({
   iconUrl: '/blue-dot.avif',
@@ -18,6 +19,7 @@ const blueDotIcon = new L.Icon({
 
 export default function Map() {
   const currentPosition = useMapStore((state) => state.currentPosition);
+  const tileLayer = useSetTileLayer();
   const accuracy = useMapStore((state) => state.accuracy);
   return (
     <div className='relative size-full'>
@@ -27,10 +29,7 @@ export default function Map() {
         scrollWheelZoom={true}
         className='z-0 h-full w-full'
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-        />
+        <TileLayer url={tileLayer} maxZoom={20} />
         <LocationPosition />
         {currentPosition && (
           <>

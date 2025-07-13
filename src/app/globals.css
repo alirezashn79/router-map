@@ -1,1 +1,10 @@
 @import 'tailwindcss';
+@plugin "daisyui" {
+  themes:
+    cupcake --default,
+    dim --prefersdark;
+}
+
+.leaflet-bottom {
+  display: none;
+}
