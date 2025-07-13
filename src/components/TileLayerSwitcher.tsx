@@ -4,13 +4,13 @@ import React from 'react';
 export default function TileLayerSwitcher() {
   const { currentTileLayer, setCurrentTileLayer } = useTileLayerStore();
   return (
-    <div className='absolute end-4 top-20 flex items-center gap-4'>
+    <div className='absolute start-4 top-20 flex items-center gap-4'>
       <button
-        className='btn h-12 p-4'
+        className='btn h-12 rounded-lg p-4'
         popoverTarget='popover-1'
         style={{ anchorName: '--anchor-1' } as React.CSSProperties}
       >
-        ({currentTileLayer}) حالت نقشه
+        حالت نقشه ({currentTileLayer})
       </button>
 
       <ul
@@ -41,7 +41,7 @@ export default function TileLayerSwitcher() {
             onClick={() => setCurrentTileLayer(ETileLayer.SAT)}
             className='flex w-full'
           >
-            ماهواره ای
+            ماهواره
           </button>
         </li>
       </ul>

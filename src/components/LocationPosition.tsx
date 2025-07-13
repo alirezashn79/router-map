@@ -102,7 +102,7 @@ export default function LocationPosition() {
       <button
         disabled={isLoading}
         onClick={findLocationHandler}
-        className='bg-base-100 absolute end-4 top-4 z-[999] flex h-12 cursor-pointer items-center justify-center gap-4 rounded-xl px-4 shadow transition-all'
+        className='btn absolute start-4 top-4 z-[999] flex h-12 cursor-pointer items-center justify-center gap-4 rounded-xl px-4 shadow transition-all'
       >
         <div className='shrink-0'>
           {isLoading ? (
