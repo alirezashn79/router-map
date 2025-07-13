@@ -6,7 +6,7 @@ import { blueDotIcon } from '@/utils/mapIcons';
 import { ErrorEvent, LocationEvent } from 'leaflet';
 import { LocateFixed } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import { Circle, Marker, useMap } from 'react-leaflet';
+import { Circle, Marker, Popup, useMap } from 'react-leaflet';
 import { BounceLoader } from 'react-spinners';
 
 export default function LocationPosition() {
@@ -116,7 +116,9 @@ export default function LocationPosition() {
       {currentPosition && (
         <>
           <Circle center={currentPosition} radius={accuracy ?? 0} weight={1} />
-          <Marker position={currentPosition} icon={blueDotIcon} />
+          <Marker position={currentPosition} icon={blueDotIcon}>
+            <Popup>salam</Popup>
+          </Marker>
         </>
       )}
     </>

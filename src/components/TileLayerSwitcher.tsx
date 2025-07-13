@@ -15,7 +15,7 @@ export default function TileLayerSwitcher() {
 
       <ul
         dir='rtl'
-        className='dropdown dropdown-bottom dropdown-left menu rounded-box bg-base-100 m-0.5 w-52 translate-x-1/2 shadow-sm'
+        className='dropdown menu rounded-box bg-base-100 m-0.5 w-52 shadow-sm'
         popover='auto'
         id='popover-1'
         style={{ positionAnchor: '--anchor-1' } as React.CSSProperties}
