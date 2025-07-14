@@ -16,6 +16,7 @@ export default function LocationPosition() {
     accuracy,
     setAccuracy,
     setOrigin,
+    setRoutingStack,
   } = useMapStore();
   const { isLoading, setIsLoading } = useGlobalStore();
   const map = useMap();
@@ -50,6 +51,7 @@ export default function LocationPosition() {
       setAccuracy(accuracy);
       setCurrentPosition([lat, lng]);
       setOrigin([lat, lng]);
+      setRoutingStack('destination');
 
       if (!initialLocationSet.current) {
         setIsLoading(false);
@@ -107,9 +109,8 @@ export default function LocationPosition() {
   return (
     <>
       <button
-        disabled={isLoading}
         onClick={findLocationHandler}
-        className='btn absolute start-4 top-4 z-[999] flex h-12 cursor-pointer items-center justify-center gap-4 rounded-xl px-4 shadow transition-all'
+        className='btn absolute start-4 top-20 z-[999] flex h-12 cursor-pointer items-center justify-center gap-4 rounded-xl px-4 shadow transition-all sm:top-4'
       >
         <div className='shrink-0'>
           {isLoading ? (

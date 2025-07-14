@@ -1,5 +1,7 @@
 import { getRouteLinesService } from '@/services/getRouteLinesService';
+import useGlobalStore from '@/store/global';
 import useMapStore from '@/store/map';
+import { cn } from '@/utils/cn';
 import { ArrowDownUp } from 'lucide-react';
 
 export default function Box() {
@@ -13,6 +15,7 @@ export default function Box() {
     setDestination,
     setRouteLines,
   } = useMapStore();
+  const { isLoading, setIsLoading } = useGlobalStore();
 
   const handleChangeRouteStackrtRouting = () => {
     if (currentPosition) {
@@ -29,10 +32,6 @@ export default function Box() {
     setRouteLines(null);
   };
 
-  const handleSelectRoute = (route: 'origin' | 'destination') => {
-    setRoutingStack(route);
-  };
-
   const handleSwapRoutes = () => {
     setOrigin(destination);
     setDestination(origin);
@@ -41,10 +40,13 @@ export default function Box() {
   const handleStartRouting = async () => {
     if (!origin || !destination) return;
     try {
+      setIsLoading(true);
       const data = await getRouteLinesService({ origin, destination });
       if (data) setRouteLines(data);
     } catch (error) {
       alert(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,12 +63,33 @@ export default function Box() {
         ) : (
           <div className='relative w-full space-y-2'>
             <button
-              onClick={() => handleSelectRoute('origin')}
-              className='btn btn-soft w-full cursor-pointer justify-start rounded-md p-2'
+              onClick={() => setRoutingStack('origin')}
+              className={cn(
+                'btn btn-soft w-full cursor-pointer justify-start rounded-md p-2',
+                routingStack === 'origin' && 'bg-primary/20',
+              )}
             >
-              {origin
-                ? `${Math.round(origin[0])},${Math.round(origin[1])}`
-                : 'مبدا'}
+              <p
+                className={cn(
+                  'transition-all',
+                  routingStack === 'origin' &&
+                    'text-primary scale-105 font-bold',
+                )}
+              >
+                <span>مبدا</span>
+                {routingStack === 'origin' && (
+                  <>
+                    <span> را انتخاب کنید </span>
+                    <span> (با کلیک روی نقشه) </span>
+                  </>
+                )}
+                {origin && routingStack !== 'origin' && (
+                  <span>
+                    {' '}
+                    {origin[0].toFixed(3)} , {origin[1].toFixed(3)}{' '}
+                  </span>
+                )}
+              </p>
             </button>
 
             <button
@@ -77,21 +100,47 @@ export default function Box() {
               <ArrowDownUp className='text-base-300 size-4' />
             </button>
             <button
-              onClick={() => handleSelectRoute('destination')}
-              className='btn btn-soft w-full cursor-pointer justify-start rounded-md p-2'
+              onClick={() => setRoutingStack('destination')}
+              className={cn(
+                'btn btn-soft w-full cursor-pointer justify-start rounded-md p-2',
+                routingStack === 'destination' && 'bg-primary/20',
+              )}
             >
-              {destination
-                ? `${Math.round(destination[0])},${Math.round(destination[1])}`
-                : 'مقصد'}
+              <p
+                className={cn(
+                  'transition-all',
+                  routingStack === 'destination' &&
+                    'text-primary scale-105 font-bold',
+                )}
+              >
+                <span>مقصد</span>
+                {routingStack === 'destination' && (
+                  <>
+                    <span> را انتخاب کنید </span>
+                    <span> (با کلیک روی نقشه) </span>
+                  </>
+                )}
+                {destination && routingStack !== 'destination' && (
+                  <span>
+                    {' '}
+                    {destination[0].toFixed(3)} ,{' '}
+                    {destination[1].toFixed(3)}{' '}
+                  </span>
+                )}
+              </p>
             </button>
 
             <div className='mt-4 flex items-center gap-2'>
               <button
                 onClick={handleStartRouting}
-                disabled={!origin || !destination}
+                disabled={!origin || !destination || isLoading}
                 className='btn btn-primary grow'
               >
-                شروع مسیریابی
+                {isLoading ? (
+                  <span className='loading loading-dots loading-md'></span>
+                ) : (
+                  <span>مسیریابی</span>
+                )}
               </button>
               <button onClick={handleCancelRouting} className='btn btn-error'>
                 لفو

@@ -14,20 +14,16 @@ export default function RoutingMarkers() {
     setDestination,
     routingStack,
     setRoutingStack,
-    currentPosition,
   } = useMapStore();
 
   const originMarkerRef = useRef<LMarker>(null);
   const destinationMarkerRef = useRef<LMarker>(null);
 
   useMapEvent('click', (e) => {
-    if (origin && destination) return;
-    console.log('setOrigin');
     const { lat, lng } = e.latlng;
-    if (routingStack === 'origin' && !currentPosition) {
+    if (routingStack === 'origin') {
       setOrigin([lat, lng]);
       setRoutingStack('destination');
-
       return;
     }
     if (routingStack === 'destination') {

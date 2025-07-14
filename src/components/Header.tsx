@@ -3,8 +3,8 @@ import { cn } from '@/utils/cn';
 import { CheckCircle2 } from 'lucide-react';
 
 export default function Header() {
-  const { routingStack, origin, destination } = useMapStore();
-
+  const { routingStack, origin, destination, routeLines } = useMapStore();
+  if (!!routeLines) return null;
   return (
     <div
       className={cn(
@@ -13,15 +13,12 @@ export default function Header() {
           'top-4 scale-100 rotate-0',
       )}
     >
-      {/* {!!routingStack && routingStack === 'origin'
-        ? 'انتخاب مبدا'
-        : 'انتخاب مقصد'} */}
       <div className='flex items-center gap-2'>
         <div
           className={cn(
             'flex items-center gap-2',
             origin && 'text-success',
-            routingStack === 'origin' && 'text-info animate-bounce',
+            routingStack === 'origin' && 'text-info animate-pulse',
           )}
         >
           <p>مبدا</p>
@@ -37,7 +34,7 @@ export default function Header() {
           className={cn(
             'flex items-center gap-2',
             destination && 'text-success',
-            routingStack === 'destination' && 'text-info animate-bounce',
+            routingStack === 'destination' && 'text-info animate-pulse',
           )}
         >
           <p>مقصد</p>
