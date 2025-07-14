@@ -7,10 +7,9 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import LocationPosition from './LocationPosition';
-import RoutingMarkers from './RoutingMarkers';
 import RouteLines from './RouteLines';
+import RoutingMarkers from './RoutingMarkers';
 import GeoSearchControlComponent from './Search';
-import Box from './Box';
 
 export default function Map() {
   const tileLayer = useSetTileLayer();
@@ -23,7 +22,6 @@ export default function Map() {
         className='z-0 h-full w-full'
       >
         <TileLayer url={tileLayer} maxZoom={18} />
-        <Box />
         <GeoSearchControlComponent />
         <LocationPosition />
         <RoutingMarkers />

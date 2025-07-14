@@ -1,10 +1,8 @@
-import { useFindLocation } from '@/hooks/useFindLocation';
 import { getRouteLinesService } from '@/services/getRouteLinesService';
 import useGlobalStore from '@/store/global';
 import useMapStore from '@/store/map';
 import { cn } from '@/utils/cn';
-import { ArrowDownUp, LocateFixed } from 'lucide-react';
-import { BounceLoader } from 'react-spinners';
+import { ArrowDownUp } from 'lucide-react';
 
 export default function Box() {
   const {
@@ -18,7 +16,6 @@ export default function Box() {
     setRouteLines,
   } = useMapStore();
   const { isLoading, setIsLoading } = useGlobalStore();
-  const { findLocationHandler } = useFindLocation();
 
   const handleChangeRouteStackrtRouting = () => {
     if (currentPosition) {
@@ -54,7 +51,7 @@ export default function Box() {
   };
 
   return (
-    <div className='bg-base-200 absolute start-1/2 bottom-24 z-[99990] w-80 translate-x-1/2 rounded-xl p-4 shadow-lg sm:w-96'>
+    <div className='bg-base-200 absolute start-1/2 bottom-24 z-[99999] w-80 translate-x-1/2 rounded-xl p-4 shadow-lg sm:w-96'>
       <div className='flex size-full items-center justify-center transition-all duration-300'>
         {!routingStack && !origin && !destination ? (
           <button
@@ -65,47 +62,35 @@ export default function Box() {
           </button>
         ) : (
           <div className='relative w-full space-y-2'>
-            <div className='flex items-center gap-1'>
-              <button
-                onClick={findLocationHandler}
-                className='btn basis-1/6 bg-blue-500 p-2'
-              >
-                {isLoading ? (
-                  <BounceLoader size={24} />
-                ) : (
-                  <LocateFixed className={cn('size-6')} />
-                )}
-              </button>
-              <button
-                onClick={() => setRoutingStack('origin')}
+            <button
+              onClick={() => setRoutingStack('origin')}
+              className={cn(
+                'btn btn-soft w-full cursor-pointer justify-start rounded-md p-2',
+                routingStack === 'origin' && 'bg-primary/20',
+              )}
+            >
+              <p
                 className={cn(
-                  'btn btn-soft basis-5/6 cursor-pointer justify-start rounded-md p-2',
-                  routingStack === 'origin' && 'bg-primary/20',
+                  'transition-all',
+                  routingStack === 'origin' &&
+                    'text-primary scale-105 font-bold',
                 )}
               >
-                <p
-                  className={cn(
-                    'transition-all',
-                    routingStack === 'origin' &&
-                      'text-primary scale-105 font-bold',
-                  )}
-                >
-                  <span>مبدا</span>
-                  {routingStack === 'origin' && (
-                    <>
-                      <span> را انتخاب کنید </span>
-                      <span> (با کلیک روی نقشه) </span>
-                    </>
-                  )}
-                  {origin && routingStack !== 'origin' && (
-                    <span>
-                      {' '}
-                      {origin[0].toFixed(3)} , {origin[1].toFixed(3)}{' '}
-                    </span>
-                  )}
-                </p>
-              </button>
-            </div>
+                <span>مبدا</span>
+                {routingStack === 'origin' && (
+                  <>
+                    <span> را انتخاب کنید </span>
+                    <span> (با کلیک روی نقشه) </span>
+                  </>
+                )}
+                {origin && routingStack !== 'origin' && (
+                  <span>
+                    {' '}
+                    {origin[0].toFixed(3)} , {origin[1].toFixed(3)}{' '}
+                  </span>
+                )}
+              </p>
+            </button>
 
             <button
               onClick={handleSwapRoutes}
