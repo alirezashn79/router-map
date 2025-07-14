@@ -54,7 +54,7 @@ export default function Box() {
   };
 
   return (
-    <div className='bg-base-200 absolute start-1/2 bottom-8 z-[99990] w-80 translate-x-1/2 rounded-xl p-4 shadow-lg sm:w-96'>
+    <div className='bg-base-200 absolute start-1/2 bottom-24 z-[99990] w-80 translate-x-1/2 rounded-xl p-4 shadow-lg sm:w-96'>
       <div className='flex size-full items-center justify-center transition-all duration-300'>
         {!routingStack && !origin && !destination ? (
           <button
