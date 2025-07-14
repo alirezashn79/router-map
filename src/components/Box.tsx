@@ -1,3 +1,4 @@
+import { getRouteLinesService } from '@/services/getRouteLinesService';
 import useMapStore from '@/store/map';
 import { ArrowDownUp } from 'lucide-react';
 
@@ -10,9 +11,10 @@ export default function Box() {
     destination,
     setOrigin,
     setDestination,
+    setRouteLines,
   } = useMapStore();
 
-  const handleStartRouting = () => {
+  const handleChangeRouteStackrtRouting = () => {
     if (currentPosition) {
       setRoutingStack('destination');
     } else {
@@ -24,6 +26,7 @@ export default function Box() {
     setRoutingStack(null);
     setOrigin(null);
     setDestination(null);
+    setRouteLines(null);
   };
 
   const handleSelectRoute = (route: 'origin' | 'destination') => {
@@ -35,11 +38,24 @@ export default function Box() {
     setDestination(origin);
   };
 
+  const handleStartRouting = async () => {
+    if (!origin || !destination) return;
+    try {
+      const data = await getRouteLinesService({ origin, destination });
+      if (data) setRouteLines(data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <div className='bg-base-200 absolute start-1/2 bottom-8 z-50 w-80 translate-x-1/2 rounded-xl p-4 shadow-lg sm:w-96'>
       <div className='flex size-full items-center justify-center transition-all duration-300'>
         {!routingStack && !origin && !destination ? (
-          <button onClick={handleStartRouting} className='btn btn-primary'>
+          <button
+            onClick={handleChangeRouteStackrtRouting}
+            className='btn btn-primary'
+          >
             شروع مسیریابی
           </button>
         ) : (
@@ -48,7 +64,9 @@ export default function Box() {
               onClick={() => handleSelectRoute('origin')}
               className='btn btn-soft w-full cursor-pointer justify-start rounded-md p-2'
             >
-              {origin ?? 'مبدا'}
+              {origin
+                ? `${Math.round(origin[0])},${Math.round(origin[1])}`
+                : 'مبدا'}
             </button>
 
             <button
@@ -62,11 +80,14 @@ export default function Box() {
               onClick={() => handleSelectRoute('destination')}
               className='btn btn-soft w-full cursor-pointer justify-start rounded-md p-2'
             >
-              {destination ?? 'مقصد'}
+              {destination
+                ? `${Math.round(destination[0])},${Math.round(destination[1])}`
+                : 'مقصد'}
             </button>
 
             <div className='mt-4 flex items-center gap-2'>
               <button
+                onClick={handleStartRouting}
                 disabled={!origin || !destination}
                 className='btn btn-primary grow'
               >

@@ -5,9 +5,10 @@ import useSetTileLayer from '@/hooks/useSetTileLayer';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import LocationPosition from './LocationPosition';
 import RoutingMarkers from './RoutingMarkers';
+import RouteLines from './RouteLines';
 
 export default function Map() {
   const tileLayer = useSetTileLayer();
@@ -22,7 +23,7 @@ export default function Map() {
         <TileLayer url={tileLayer} maxZoom={18} />
         <LocationPosition />
         <RoutingMarkers />
-        <Marker position={CENTER_POSITION} />
+        <RouteLines />
       </MapContainer>
     </div>
   );

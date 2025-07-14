@@ -10,8 +10,13 @@ import { Circle, Marker, Popup, useMap } from 'react-leaflet';
 import { BounceLoader } from 'react-spinners';
 
 export default function LocationPosition() {
-  const { currentPosition, setCurrentPosition, accuracy, setAccuracy } =
-    useMapStore();
+  const {
+    currentPosition,
+    setCurrentPosition,
+    accuracy,
+    setAccuracy,
+    setOrigin,
+  } = useMapStore();
   const { isLoading, setIsLoading } = useGlobalStore();
   const map = useMap();
   const initialLocationSet = useRef(false);
@@ -31,6 +36,7 @@ export default function LocationPosition() {
     if (!initialLocationSet.current) {
       setIsLoading(true);
       setCurrentPosition(null);
+      setOrigin(null);
     }
     fallbackTried.current = false;
     findLocation(true);
@@ -43,6 +49,7 @@ export default function LocationPosition() {
 
       setAccuracy(accuracy);
       setCurrentPosition([lat, lng]);
+      setOrigin([lat, lng]);
 
       if (!initialLocationSet.current) {
         setIsLoading(false);
@@ -95,7 +102,7 @@ export default function LocationPosition() {
       map.off('locationerror', onLocationError);
       map.stopLocate();
     };
-  }, [map, setAccuracy, setCurrentPosition, setIsLoading]);
+  }, [map, setAccuracy, setCurrentPosition, setIsLoading, setOrigin]);
 
   return (
     <>
