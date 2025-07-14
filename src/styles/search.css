@@ -1,0 +1,17 @@
+.leaflet-control-geosearch {
+  button.reset {
+    height: 100%;
+    background-color: oklch(0.30857 0.023 264.149);
+    color: wheat;
+    padding-inline: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+  div.results {
+    background-color: oklch(0.30857 0.023 264.149);
+  }
+}
