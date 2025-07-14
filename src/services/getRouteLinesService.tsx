@@ -12,7 +12,7 @@ export async function getRouteLinesService({
   const [originLat, originLng] = origin;
   const [destinationLat, destinationLng] = destination;
 
-  const url = `http://router.project-osrm.org/route/v1/driving/${originLng},${originLat};${destinationLng},${destinationLat}?overview=full&geometries=geojson`;
+  const url = `https://router.project-osrm.org/route/v1/driving/${originLng},${originLat};${destinationLng},${destinationLat}?overview=full&geometries=geojson`;
 
   const response = await fetch(url);
   const data = await response.json();
