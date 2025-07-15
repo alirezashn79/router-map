@@ -34,7 +34,8 @@ export default async function getRoutesService({
 
   const url =
     'https://api.openrouteservice.org/v2/directions/driving-car/geojson';
-  const apiKey = process.env.NEXT_PUBLIC_ROUTING_API_KEY;
+  const apiKey =
+    'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjI1ODExZGU3NTFiZjRhMjhiNjJjZmUyODQwZmYyZjhmIiwiaCI6Im11cm11cjY0In0=';
 
   const coordinates = [origin.reverse(), destination.reverse()];
 
