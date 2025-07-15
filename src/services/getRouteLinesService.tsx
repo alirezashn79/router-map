@@ -16,6 +16,7 @@ export async function getRouteLinesService({
 
   const response = await fetch(url);
   const data = await response.json();
+
   const coordinates = (
     data.routes?.[0]?.geometry?.coordinates as Array<[number, number]>
   )?.map(([lng, lat]) => [lat, lng]) as Array<[number, number]>;

@@ -7,9 +7,10 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import LocationPosition from './LocationPosition';
-import RouteLines from './RouteLines';
 import RoutingMarkers from './RoutingMarkers';
 import GeoSearchControlComponent from './Search';
+import RouteLines from './RouteLines';
+import RouteAnimator from './RouteAnimator';
 
 export default function Map() {
   const tileLayer = useSetTileLayer();
@@ -26,6 +27,7 @@ export default function Map() {
         <LocationPosition />
         <RoutingMarkers />
         <RouteLines />
+        <RouteAnimator />
       </MapContainer>
     </div>
   );
