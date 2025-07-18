@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗺️ MapRoute
 
-## Getting Started
+An interactive mapping application built with React and React Leaflet that provides advanced routing capabilities and location search functionality.
 
-First, run the development server:
+## 🎨 Screenshots
+
+  <img src="./screenshots/dark.png" alt="Search Results"/>
+  <br/>
+  <br/>
+  <img src="./screenshots/light.png" alt="Search Results"/>
+  <br/>
+  <br/>
+  <img src="./screenshots/sat.png" alt="Search Results"/>
+
+## ✨ Features
+
+- 🔍 **Location Search**: Find places using names or addresses
+- 🛣️ **Smart Routing**: Calculate optimal routes between two points
+- 📏 **Distance Calculation**: Display accurate route distance
+- 📋 **Route List**: Show detailed route instructions
+- 🎯 **Point Selection**: Choose origin and destination by clicking on the map
+- 📱 **Responsive Design**: Compatible with all devices
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+
+- Node.js (version 14 or higher)
+- npm or yarn
+
+### Installation Steps
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone https://github.com/alirezashn79/router-map.git
+
+# Navigate to project directory
+cd router-map
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+After running the above command, the application will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **React**: Main library for building user interface
+- **React Leaflet**: React components for interactive maps
+- **Leaflet**: Open-source mapping library
+- **OpenStreetMap**: Map data source
+- **Routing API**: For route calculation
 
-## Learn More
+## 📖 How to Use
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Location Search
+- Enter a location name or address in the search box
+- Select the desired location from the suggestions list
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Routing
+- Set the origin point by clicking on the map
+- Choose the destination point
+- The optimal route will be automatically calculated and displayed
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. View Details
+- Route distance is displayed at the top of the map
+- Detailed route list with turn-by-turn directions is available
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📝 Code Example
+
+```jsx
+import React from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+
+function MapComponent() {
+  return (
+    <MapContainer center={[35.6892, 51.3890]} zoom={13}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; OpenStreetMap contributors'
+      />
+      <Marker position={[35.6892, 51.3890]}>
+        <Popup>Tehran, Iran</Popup>
+      </Marker>
+    </MapContainer>
+  );
+}
+```
+
+## 🔧 Configuration
+
+The application supports the following configurations:
+
+- **API Key**: For commercial routing services (if used)
+- **Map Style**: Change map appearance
+- **Default Location**: Set default map position
+
+## 🚀 Build for Production
+
+```bash
+# Create production build
+npm run build
+
+# The build folder will contain the optimized files
+```
+
+## 📁 Project Structure
+
+```
+router-map/
+├── public/
+│   ├── index.html
+│   └── ...
+├── src/
+│   ├── components/
+│   ├── hooks/
+│   ├── utils/
+│   ├── App.js
+│   └── index.js
+├── screenshots/
+└── README.md
+```
+
+---
+
+⭐ If you found this project useful, please give it a star!
